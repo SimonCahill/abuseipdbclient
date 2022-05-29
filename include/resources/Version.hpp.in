@@ -1,0 +1,29 @@
+/**
+ * @file Version.hpp.in
+ * @author Simon Cahill (simon@simonc.eu)
+ * @brief Contains version information about this application
+ * @version 0.1
+ * @date 2022-05-28
+ * 
+ * @copyright Copyright (c) 2022 Simon Cahill
+ */
+
+#ifndef ABUSEIPDB_CLIENT_INCLUDE_RESOURCES_VERSION_HPP
+#define ABUSEIPDB_CLIENT_INCLUDE_RESOURCES_VERSION_HPP
+
+#include <string>
+
+namespace abuseipdb_client { namespace resources {
+
+    using std::string;
+    using std::string_view;
+
+    constexpr string_view applicationVersionMajor() { return "@PROJECT_VERSION_MAJOR@"; }
+    constexpr string_view applicationVersionMinor() { return "@PROJECT_VERSION_MINOR@"; }
+    constexpr string_view applicationVersionPatch() { return "@PROJECT_VERSION_PATCH@"; }
+
+    constexpr string_view applicationVersion() { applicationVersionMajor() + "." + applicationVersionMinor() + "." + applicationVersionPatch() + "@VERSION_SUFFIX@"; }
+
+} /* namespace resources */ } /* namespace abuseipdb_client */
+
+#endif // ABUSEIPDB_CLIENT_INCLUDE_RESOURCES_VERSION_HPP
