@@ -1,0 +1,65 @@
+///////////////////////////////////////////////////////////
+//  Configuration file for abuseidb_client
+//  Edit this file at your own will; editing this file
+//  in the source code repo before building WILL edit the
+//  application defaults!
+//
+//  Config nomenclature:
+//  abuseipdb uses dot-notation to get nested
+//  configurations.
+//  This means that the names you give the configs MUST
+//  match a certain pattern.
+//  This is the pattern these configs must match:
+//                      [A-z0-9_-]+
+//  The pattern for matching nested configs is thus:
+//                      ([A-z0-9_-]+\.?)+
+//
+//  These comments will be filtered out by the application,
+//  feel free to add any you might require :)
+//
+//  © Simon Cahill
+///////////////////////////////////////////////////////////
+
+{
+    // Whether or not to run the application as a daemon.
+    // This does not cause the application to re-spawn a child!
+    "RunAsDaemon": true,
+
+    // Determines the wakeup interval for the application.
+    // Waking up every 60 seconds to check if anything needs
+    // to be done is fine.
+    // This does not affect the MQTT API!
+    "WakeupTimeSeconds": 60,
+
+    // Settings related to the AbuseIPDB website
+    "AbuseIpDb": {
+        // REQUIRED: The API key for AbuseIPDB
+        "ApiKey": ""
+    },
+
+    // Settings related to Fail2Ban
+    "Fail2Ban": {
+        // Determines whether or not to automatically read from Fail2Ban
+        "Enabled": true,
+
+        // The sqlite3 database file to read from
+        "DbFile": "/var/lib/fail2ban/fail2ban.sqlite3"
+    },
+
+    // Settings related to endlessh
+    "Endlessh": {
+        // Determines whether or not to get reports from endlessh
+        "Enabled": true,
+
+        // RECOMMENDED: use endlessh-report to generate compatible reports
+        "UseEndlesshReport": true
+    },
+
+    // Settings related to the MQTT API
+    "Mqtt": {
+        "BrokerAddress": "127.0.0.1",
+        "BrokerPort": 1883,
+        "Username": "",
+        "Password": ""
+    }
+}
