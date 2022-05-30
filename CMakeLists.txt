@@ -9,15 +9,18 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-Dabuseipdb_DEBUG)
     set(VERSION_SUFFIX "-debug")
 else()
-
 endif()
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/cfg/extract_cfg.cmake)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/resources/Version.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/include/resources/Version.hpp @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/resources/Resources.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/include/resources/Resources.hpp @ONLY)
 
 file(GLOB_RECURSE FILES FOLLOW_SYMLINKS ${CMAKE_CURRENT_SOURCE_DIR}/src src/*.cpp)
 
 include_directories(
     include/
+    ${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
 if (NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)

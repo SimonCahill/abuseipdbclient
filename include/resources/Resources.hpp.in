@@ -1,0 +1,24 @@
+/**
+ * @file Resources.hpp.in
+ * @author Simon Cahill (simon@simonc.eu)
+ * @brief Contains application resources, such as config files.
+ * @version 0.1
+ * @date 2022-05-29
+ * 
+ * @copyright Copyright (c) 2022 Simon Cahill
+ */
+
+#ifndef ABUSEIPDB_CLIENT_INCLUDE_RESOURCES_RESOURCES_HPP
+#define ABUSEIPDB_CLIENT_INCLUDE_RESOURCES_RESOURCES_HPP
+
+#include <string>
+
+namespace abuseipdb_client { namespace resources {
+
+    using std::string_view;
+
+    inline constexpr string_view getDefaultConfig() { return R"(@abuseipdb_DEFAULT_CONFIG@)"; }
+
+} /* namespace resources */ } /* namespace abuseipdb_client */
+
+#endif // ABUSEIPDB_CLIENT_INCLUDE_RESOURCES_RESOURCES_HPP
