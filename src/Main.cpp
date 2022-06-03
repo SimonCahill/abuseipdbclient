@@ -83,8 +83,7 @@ int32_t main(const int32_t argc, const char** argv) {
     setupLogging();
 
     g_logger->debug("Setting up API connector...");
-    auto apiConnector = AbuseIpDbApi::Factory("38dd2247858867262086cc640c76550bd9c9f5a2ba427eca7b4ca6f9c7e8164c559cd158451b1af3", g_logger)
-                        .getInstance();
+    
     
 
     return 0;
