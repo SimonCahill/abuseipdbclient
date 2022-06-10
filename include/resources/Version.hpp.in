@@ -21,8 +21,12 @@ namespace abuseipdb_client { namespace resources {
     constexpr string_view applicationVersionMajor() { return "@PROJECT_VERSION_MAJOR@"; }
     constexpr string_view applicationVersionMinor() { return "@PROJECT_VERSION_MINOR@"; }
     constexpr string_view applicationVersionPatch() { return "@PROJECT_VERSION_PATCH@"; }
+    constexpr string_view versionSuffix()           { return "@VERSION_SUFFIX@"; }
+    constexpr string_view versionSeparator()        { return "."; }
 
-    constexpr string_view applicationVersion() { applicationVersionMajor() + "." + applicationVersionMinor() + "." + applicationVersionPatch() + "@VERSION_SUFFIX@"; }
+    constexpr string_view applicationVersion() {
+        return "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@@VERSION_SUFFIX@";
+    }
 
 } /* namespace resources */ } /* namespace abuseipdb_client */
 
