@@ -70,7 +70,7 @@ namespace abuseipdb_client { namespace cfg {
         if (utils::regexMatch(path, CONFIG_PATTERN)) {
             const auto tokens = utils::splitString(path, ".");
             return hasConfig(tokens.front()) ?
-                hasConfig(m_configObj.at(tokens.front()), utils::replaceString(path, tokens.front() + ".", ""))
+                hasConfig(m_configObj.at(tokens.front()), utils::replaceString(const_cast<string&>(path), tokens.front() + ".", ""))
                 : false;
         }
 
