@@ -52,7 +52,7 @@ namespace abuseipdb_client { namespace utils {
 
     inline bool regexMatch(const string& haystack, const string& pattern) {
         const regex regPattern(pattern);
-        return std::regex_match(haystack, regPattern, reg::ECMAScript);
+        return std::regex_match(haystack, regPattern);
     }
 
     inline bool splitString(const string& str, const string& delimiters, vector<string>& tokens, size_t maxLen = SIZE_MAX) {
@@ -81,7 +81,7 @@ namespace abuseipdb_client { namespace utils {
         return tokens;
     }
 
-    inline string replaceString(const string& haystack, const string& needle, const string& replacement, const int32_t maxCount = -1) {
+    inline string replaceString(string& haystack, const string& needle, const string& replacement, const int32_t maxCount = -1) {
         size_t needleLocation = 0;
         int32_t currentCount = 0;
 
