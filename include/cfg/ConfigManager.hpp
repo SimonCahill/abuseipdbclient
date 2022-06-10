@@ -40,7 +40,7 @@ namespace abuseipdb_client { namespace cfg {
     using std::shared_ptr;
     using std::string;
 
-    class ConfigException: exception;
+    class ConfigException;
 
     /**
      * @brief Simple class providing basic functionality for a working config.
@@ -70,7 +70,7 @@ namespace abuseipdb_client { namespace cfg {
 
             template<class T>
             T                               getConfig(const string& path) const {
-                return getConfig(m_configObj, path);
+                return getConfig<T>(m_configObj, path);
             }
 
         protected: // +++ Constructor +++
@@ -85,9 +85,13 @@ namespace abuseipdb_client { namespace cfg {
                     throw ConfigException("Attempt to retrieve non-existing config!", path);
                 }
 
-                if (utils::regexMatch(path, REGEX_PATTERN)) {
+                if (utils::regexMatch(path, CONFIG_PATTERN)) {
                     const auto tokens = utils::splitString(path, ".");
-                    
+                    if (!hasConfig(container, tokens.front())) {
+                        throw ConfigException(tokens.front(), "Requested config not found!");
+                    }
+
+                    return getConfig<T>(container.at(tokens.front()), utils::replaceString(const_cast<string&>(path), tokens.front() + ".", ""));
                 }
 
                 return container.at(path);
@@ -110,7 +114,7 @@ namespace abuseipdb_client { namespace cfg {
             ~ConfigException() {}
 
         public: // +++ Exposed API +++
-            const char* what() { spdlog::fmt_lib::format("{0:s}; Config object {1:s}", m_error, m_config).c_str(); }
+            const char* what() { return spdlog::fmt_lib::format("{0:s}; Config object {1:s}", m_error, m_config).c_str(); }
 
         private: // +++ Private API +++
             const string    m_config;
