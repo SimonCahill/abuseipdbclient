@@ -38,8 +38,11 @@
 ///////////////////////
 //  LOCAL  INCLUDES  //
 ///////////////////////
-#include "resources/Args.hpp"
 #include "api/AbuseIpDbApi.hpp"
+#include "cfg/ConfigManager.hpp"
+#include "resources/Args.hpp"
+
+using abuseipdb_client::cfg::ConfigManager;
 
 using spdlog::level::level_enum;
 using spdlog::logger;
@@ -69,37 +72,73 @@ using std::vector;
 ///////////////////////
 //  GLOBAL VARIABLES //
 ///////////////////////
-static shared_ptr<logger>   g_logger;
+static shared_ptr<logger>           g_logger;
+static shared_ptr<ConfigManager>    g_config;
 
-bool parseArgs(const int32_t, const char**);
+static string                       g_configLocation;
+
+bool parseArgs(const int32_t, char**);
+void setupConfig();
 void setupLogging();
 void setupSignals();
 
-int32_t main(const int32_t argc, const char** argv) {
+int32_t main(const int32_t argc, char** argv) {
 
     using abuseipdb_client::api::AbuseIpDbApi;
     using cat_t = abuseipdb_client::api::AbuseIpDbApi::ReportCategories;
 
     setupLogging();
-
-    g_logger->debug("Setting up API connector...");
+    if (!parseArgs(argc, argv)) { return 1; }
     
     
 
     return 0;
 }
 
-bool parseArgs(const int32_t argc, const char** argv) {
+bool parseArgs(const int32_t argc, char** argv) {
+    using abuseipdb_client::resources::getApplicationArgs;
+    using abuseipdb_client::resources::getApplicationArgsString;
+    using abuseipdb_client::resources::getHelpText;
 
-    int32_t arg = 0;
+    int8_t arg = 0;
+    setenv("POSIXLY_CORRECT", "1", true);
+    optind = 0;
 
     do {
         int32_t argvIndex = optind ? optind : 1;
         int32_t optionIndex = 0;
 
+        const auto argString = string(getApplicationArgsString()).c_str();
+        arg = getopt_long(argc, argv, argString, getApplicationArgs(), &optionIndex);
+
+        switch (arg) {
+            case -1: break;
+            case 0:
+                g_logger->debug("Got option {0:s}", getApplicationArgs()[optionIndex].name);
+                break;
+
+            case '?':
+            case ':':
+                g_logger->error("Invalid option {0:c} -- for valid options, use --help/-h", arg);
+                break;
+
+            case 'c':
+                g_logger->debug("Config file location overridden. New location: {0:s}", optarg);
+                g_configLocation = optarg;
+                break;
+
+            case 'h':
+                fmt::print(getHelpText(argv[0]));
+                return false;
+        }
+
     } while (arg >= 0);
 
     return true; // keep alive
+}
+
+void setupConfig() {
+
 }
 
 void setupLogging() {
